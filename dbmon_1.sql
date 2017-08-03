@@ -7,7 +7,9 @@ from dual;
 --Events caused by users
 select  state, event#, event, sid, username from v$session where username is not null and event is not null;
 
-!echo USERS CONNECTED---------------------------------------------------------------------------------------
+!echo USERS CONNECTED--------------------------------------------------------------------------------------
+
+select count(sid) as NUMBER_OF_SESSIONS from v$session where username is not null;
 
 --All users (sessions) connected
 select sid, machine, username from v$session

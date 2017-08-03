@@ -4,6 +4,8 @@
 get_db_res()
 {
 sqlplus / as sysdba << EOF
+	SET LINESIZE 150
+	SET WRAP OFF
 	set echo off
 	set verify off
 	set feedback off
@@ -24,7 +26,7 @@ echo '--------------------------------------------------------------------------
 
 monitor()
 {
-print_all | grep -Ev '^(SQL| |Copyright|Connected to|Oracle Database|truncating|rows will be truncated)' | sed '/^\s*$/d'
+print_all | grep -Ev '^(SQL|Copyright|Connected to|Oracle Database|truncating|rows will be truncated)' | sed '/^\s*$/d'
 }
 
 iterations=0

@@ -4,13 +4,13 @@
 get_db_res()
 {
 sqlplus / as sysdba << EOF
-	SET LINESIZE 150
-	SET WRAP OFF
+	SET LINESIZE 32767
 	set echo off
 	set verify off
 	set feedback off
-	@dbmon_1
-	
+	set pages 0
+	set long 1000000
+	@dbmon_1	
 EOF
 }
 

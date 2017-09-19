@@ -13,7 +13,7 @@ sqlplus / as sysdba << EOF
 	set feedback off
 	set pages 0
 	set long 1000000
-	@dbmon_1	
+	@dbmon2
 EOF
 }
 
@@ -23,10 +23,9 @@ echo '--------------------------------------------------------------------------
 echo 'CPU & IO stats ----------------------------------------------------------------------------------'
 sar 1 1 | grep -Ev '^(Average|Linux)' #cpu and I/O from system
 echo 'MEMORY stats ------------------------------------------------------------------------------------' 
-free -h
+free -h | grep -Ev '^Swap' #memory usage
 echo 'Database ----------------------------------------------------------------------------------------'
 get_db_res #results from DB queries
-echo '-------------------------------------------------------------------------------------------------'
 }
 
 monitor()
@@ -62,8 +61,8 @@ monitor
 ((iterations=total_time/int_time))
 for ((i=1 ; i<=iterations ; i++))
 do
-	echo "iteration $i"
 	sleep $int_time
 	monitor
 done
+
 

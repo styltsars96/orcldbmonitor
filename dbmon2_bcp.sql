@@ -4,9 +4,9 @@
 
 --Events caused by users
 
-select ss.username ||', '||ss.sid ||', '||ss.event ||', '||ss.status ||', '||ss.wait_class ||', '||ss.seconds_in_wait ||', '||ss.WAIT_TIME
-from v$session ss where ss.username='SOE' and ss.status='ACTIVE'
- and ss.event!='SQL*Net message to client' and ss.wait_time!='-1' and ss.wait_class != 'Idle';
+select ss.username,ss.sid,ss.type,ss.event,ss.module,ss.status,ss.wait_class,ss.wait_time,ss.WAIT_TIME_MICRO,sq.sql_fulltext,sq.sql_id
+from v$session ss JOIN v$sql sq ON (ss.SQL_ID = sq.SQL_ID) where ss.username='SOE' and ss.status='ACTIVE'
+ and ss.event!='SQL*Net message to client' and ss.wait_time!='-1';
 
 
 

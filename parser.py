@@ -4,8 +4,8 @@ from sys import exit
 if __name__ == '__main__':
 	#argv[1] is the filename...
 	#checking if file is in order.
-	if len(argv) < 3:
-		print "Provide file to parse, and a csv file to create..."
+	if len(argv) < 4:
+		print "Provide file to parse, and 2 csv files to create (CPU & WAIT)..."
 		exit(0)
 	readFile = None
 	try:
@@ -17,19 +17,19 @@ if __name__ == '__main__':
 	if lines[0] == None or lines[0].isspace() or not lines[0] :
 		print "File is empty"
 		exit(0)
-	writeFile = open(argv[2] ,"w+")
+	CPUwriteFile = open(argv[2], "w+")
+	WAITWriteFile = open(argv[3], "w+")
+	CPUwrite = ''
 	for i in range(0, len(lines)):
 		if  "-------------------------------------------------------------------------------------------------" in lines[i] :
-			writeLine = None
+			WAITwrite= ''
 			i = i + 3
-			writeLine = str( 100 - float(lines[i].split()[8]) ) + ","#CPU USAGE (0)
+			CPUwrite = CPUwrite +  str( 100 - float(lines[i].split()[8]) ) + ', ' #CPU USAGE
 			i = i + 7
 			while "USERS CONNECTED------------------------------" not in lines[i] :
-				words = lines[i].split()#the query's results
-				for w in words: 
-					writeLine = writeLine + w + ","
+				WAITWriteFile.write(lines[i]) #DB Query results
 				i = i + 1
 			i = i + 1
-			writeLine = writeLine + lines[i].split()[3]  #Number of users (last)
-			writeLine = writeLine + "\n"
-			print writeLine
+	CPUwriteFile.write(CPUwrite)
+	CPUwriteFile.close()
+	WAITWriteFile.close()
